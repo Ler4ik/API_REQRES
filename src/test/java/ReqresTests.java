@@ -9,7 +9,7 @@ public class ReqresTests {
 
     @Test
     void createUser(){
-        String data = "{ \"name\": \"morpheus\", \"job\": \"leader\" }";
+        String data = "{ \"name\": \"morpheus\", \"job\": \"leader\"}";
 
         given()
                 .log().uri()
