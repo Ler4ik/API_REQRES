@@ -1,28 +1,39 @@
+package tests;
+
+import model.CreateBodyModel;
+import model.CreateResponseModel;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
-import static org.hamcrest.Matchers.hasEntry;
+import org.assertj.core.api.Assertions;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ReqresTests {
 
     @Test
     void createUser(){
-        String data = "{ \"name\": \"morpheus\", \"job\": \"leader\"}";
 
-        given()
+        CreateBodyModel loginBody = new CreateBodyModel();
+        loginBody.setName("morpheus");
+        loginBody.setJob("leader");
+
+        CreateResponseModel loginResponse = given()
                 .log().uri()
+                .log().body()
                 .contentType(JSON)
-                .body(data)
+                .body(loginBody)
                 .when()
                 .post("https://reqres.in/api/users")
                 .then()
                 .log().status()
                 .log().body()
                 .statusCode(201)
-                .body("name", is("morpheus"))
-                .body("job", is("leader"));
+                .extract().as(CreateResponseModel.class);
+
+        //assertEquals("morpheus",loginResponse.getName());
+        Assertions.assertThat(loginResponse.getName()).isEqualTo("morpheus");
     }
 
     @Test
