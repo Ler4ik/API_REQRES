@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import model.CreateBodyModel;
 import model.CreateResponseModel;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ public class ReqresTests {
         loginBody.setJob("leader");
 
         CreateResponseModel loginResponse = given()
+                .filter(new AllureRestAssured())
                 .log().uri()
                 .log().body()
                 .contentType(JSON)
