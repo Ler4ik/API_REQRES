@@ -5,6 +5,7 @@ import model.CreateBodyModel;
 import model.CreateResponseModel;
 import org.junit.jupiter.api.Test;
 
+import static helpers.CustomApiListener.CustomAllureListener.withCustomTemplates;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import org.assertj.core.api.Assertions;
@@ -21,9 +22,10 @@ public class ReqresTests {
         loginBody.setJob("leader");
 
         CreateResponseModel loginResponse = given()
-                .filter(new AllureRestAssured())
                 .log().uri()
+                .log().headers()
                 .log().body()
+                .filter(withCustomTemplates())
                 .contentType(JSON)
                 .body(loginBody)
                 .when()
@@ -44,6 +46,9 @@ public class ReqresTests {
 
         given()
                 .log().uri()
+                .log().headers()
+                .log().body()
+                .filter(withCustomTemplates())
                 .contentType(JSON)
                 .body(data)
                 .when()
@@ -61,6 +66,9 @@ public class ReqresTests {
 
         given()
                 .log().uri()
+                .log().headers()
+                .log().body()
+                .filter(withCustomTemplates())
                 .contentType(JSON)
                 .body(data)
                 .when()

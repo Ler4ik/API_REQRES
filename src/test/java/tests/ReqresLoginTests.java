@@ -1,10 +1,12 @@
 package tests;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import model.LoginBodyPojoModel;
 import model.LoginResponsePojoModel;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static helpers.CustomApiListener.CustomAllureListener.withCustomTemplates;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -18,6 +20,9 @@ public class ReqresLoginTests {
 
         given()
                 .log().uri()
+                .log().headers()
+                .log().body()
+                .filter(withCustomTemplates())
                 .contentType(JSON)
                 .body(data)
                 .when()
@@ -37,7 +42,9 @@ public class ReqresLoginTests {
 
         LoginResponsePojoModel loginResponse = given()
                 .log().uri()
+                .log().headers()
                 .log().body()
+                .filter(withCustomTemplates())
                 .contentType(JSON)
                 .body(loginBody)
                 .when()
