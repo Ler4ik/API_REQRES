@@ -12,6 +12,8 @@ import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static specs.LoginSpecs.loginRequestSpec;
+import static specs.LoginSpecs.loginResponseSpec;
 
 public class ReqresLoginTests {
     @Test
@@ -40,19 +42,12 @@ public class ReqresLoginTests {
         loginBody.setEmail("eve.holt@reqres.in");
         loginBody.setPassword("cityslicka");
 
-        LoginResponsePojoModel loginResponse = given()
-                .log().uri()
-                .log().headers()
-                .log().body()
-                .filter(withCustomTemplates())
-                .contentType(JSON)
+        LoginResponsePojoModel loginResponse = given(loginRequestSpec)
                 .body(loginBody)
                 .when()
-                .post("https://reqres.in/api/login")
+                .post("/login")
                 .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
+                .spec(loginResponseSpec)
                 .extract().as(LoginResponsePojoModel.class);
 
 //        assertEquals("QpwL5tke4Pnpja7X4", loginResponse.getToken());
